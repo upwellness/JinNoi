@@ -79,7 +79,15 @@ const MOCK_KNOWLEDGE = [
 
 // --- COMPONENTS ---
 
-const SidebarItem = ({ icon: Icon, label, active, onClick, badge }) => (
+interface SidebarItemProps {
+  icon: React.ElementType;
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+  badge?: number;
+}
+
+const SidebarItem = ({ icon: Icon, label, active, onClick, badge }: SidebarItemProps) => (
   <button 
     onClick={onClick}
     className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-colors mb-1 ${
@@ -92,7 +100,7 @@ const SidebarItem = ({ icon: Icon, label, active, onClick, badge }) => (
       <Icon size={20} className={active ? 'text-blue-600' : 'text-slate-400'} />
       <span>{label}</span>
     </div>
-    {badge > 0 && (
+    {badge !== undefined && badge > 0 && (
       <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
         active ? 'bg-blue-200 text-blue-800' : 'bg-slate-200 text-slate-700'
       }`}>
@@ -102,7 +110,14 @@ const SidebarItem = ({ icon: Icon, label, active, onClick, badge }) => (
   </button>
 );
 
-const StatCard = ({ title, value, icon: Icon, trend }) => (
+interface StatCardProps {
+  title: string;
+  value: string | number;
+  icon: React.ElementType;
+  trend?: string;
+}
+
+const StatCard = ({ title, value, icon: Icon, trend }: StatCardProps) => (
   <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-start justify-between">
     <div>
       <p className="text-slate-500 text-sm font-medium mb-1">{title}</p>
@@ -170,7 +185,8 @@ const DashboardView = () => (
 const ReviewQueueView = () => {
   const [queue, setQueue] = useState(MOCK_DRAFTS.filter(d => d.status === 'Pending Review'));
 
-  const handleApprove = (id) => {
+  // เพิ่ม : string เข้าไปเพื่อบอกว่า id เป็นข้อความ
+  const handleApprove = (id: string) => {
     setQueue(queue.filter(q => q.id !== id));
   };
 
